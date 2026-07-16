@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://hacker-text-effect.netlify.app/sitemap.xml

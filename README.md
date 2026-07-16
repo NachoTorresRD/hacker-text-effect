@@ -1,69 +1,61 @@
-# 👾 Letras Hacker — Efecto Matrix Scramble Interactivo
+# Hacker Text Effect
 
-Una demostración web interactiva, moderna y de diseño premium que implementa el efecto **Text Scramble Decode** (mejor conocido como *efecto letras hacker*). 
+![Vista previa de Hacker Text Effect](assets/preview.svg)
 
-Este repositorio está estructurado de manera modular (HTML, CSS y JS separados) para servir como recurso educativo de apoyo al video tutorial del canal.
+Efecto de texto scramble/decoder accesible, ligero y configurable, construido con HTML, CSS y JavaScript Vanilla.
 
----
+## Características
 
-## 🚀 Características
-*   **Decodificación al Vuelo**: Cada letra que escribes en el campo de texto se decodifica en tiempo real con caracteres de código aleatorios antes de revelar el texto final.
-*   **Glow en Hover**: Pasa el cursor por encima del texto para activar la animación de re-cifrado de forma instantánea.
-*   **Diseño Oscuro Premium**: Estilo futurista con desenfoque de fondo (glassmorphism) y degradados en tonos púrpura y cian.
-*   **Totalmente Responsivo**: Adaptado para lucir de forma impecable tanto en dispositivos móviles como en pantallas grandes de escritorio.
-*   **Sin Dependencias**: Escrito con HTML5, Tailwind CSS para el maquetado rápido y Javascript Vainilla puro.
+- Activación al escribir, hacer hover, clic o usar el teclado.
+- Velocidad ajustable y reinicio manual.
+- Una sola animación `requestAnimationFrame` activa.
+- Adaptación a `prefers-reduced-motion`.
+- Diseño responsive desde 360 px y sin dependencias externas.
 
----
+## Demo en vivo
 
-## 📁 Estructura del Proyecto
-El proyecto está dividido de forma limpia para facilitar su comprensión paso a paso:
+[hacker-text-effect.netlify.app](https://hacker-text-effect.netlify.app)
+
+## Instalación
 
 ```bash
-hacker-text-demo/
-├── index.html   # Estructura del DOM y maquetación de la interfaz
-├── style.css    # Definición de fuentes, fondo radial y estilos glassmorphism
-└── script.js    # Lógica de cifrado y manipulación de texto en JS
+git clone https://github.com/NachoTorresRD/hacker-text-effect.git
+cd hacker-text-effect
 ```
 
----
+Abre `index.html` directamente en el navegador.
 
-## 💻 ¿Cómo usarlo localmente?
-No necesitas realizar instalaciones complejas ni inicializar servidores de desarrollo. 
+## Estructura
 
-1.  Clona el repositorio o descarga los archivos.
-2.  Haz doble clic en el archivo `index.html` para abrirlo directamente en tu navegador favorito.
-3.  ¡Escribe cualquier palabra y disfruta del efecto!
-
----
-
-## 🛠️ ¿Cómo funciona el algoritmo?
-El efecto se basa en cambiar de forma progresiva cada caracter del texto original por un símbolo aleatorio de una colección (`!@#$%&*?...`), y luego revelar los caracteres reales de izquierda a derecha usando un bucle de tiempo (`setInterval`):
-
-```javascript
-// Fragmento básico de la función en script.js
-function scrambleEffect(element, originalText, speed = 60, iterations = 3) {
-  let count = 0;
-  let interval = setInterval(() => {
-    element.innerText = originalText
-      .split("")
-      .map((char, index) => {
-        if (char === " ") return " ";
-        if (index < count) return originalText[index];
-        return SYMBOLS[Math.floor(Math.random() * SYMBOLS.length)];
-      })
-      .join("");
-    
-    if (count >= originalText.length) clearInterval(interval);
-    count += 1 / iterations;
-  }, speed);
-}
+```text
+hacker-text-effect/
+├── assets/
+├── index.html
+├── style.css
+├── script.js
+├── netlify.toml
+├── robots.txt
+└── sitemap.xml
 ```
 
----
+## Personalización
 
-## ⚡ Créditos, Fork y Contribución
-Desarrollado con fines educativos y de portafolio por **[NachoTorresRD](https://ntdesweb.com)** para la agencia de desarrollo web premium **[NTDESWEB](https://ntdesweb.com)**.
+Cambia los tokens de color en `:root`, edita `symbols` en `script.js` y ajusta el rango de velocidad del control HTML.
 
-¡Eres libre de utilizar este código en tus propios proyectos! Si te sirve de ayuda para tus desarrollos, te invito a:
-*   Darle una **Estrella (Star) ⭐** a este repositorio para apoyar mi contenido.
-*   Hacer un **Fork 🍴** del repositorio y personalizarlo con tus propios efectos o estilos.
+## Accesibilidad
+
+El disparador es un botón nativo, los controles tienen etiquetas, el estado se anuncia con una región `aria-live` y el movimiento no esencial se elimina cuando el sistema lo solicita.
+
+## Rendimiento
+
+No usa librerías, fuentes remotas ni imágenes pesadas. La animación se cancela antes de iniciar otra y solo modifica `textContent`.
+
+## Licencia
+
+[MIT](LICENSE)
+
+## Créditos
+
+Creado por [Nacho Torres](https://github.com/NachoTorresRD) para [NTDESWEB](https://www.ntdesweb.com), usando [NT-SKILL SUPREME](https://github.com/NachoTorresRD/nt-skill-supreme).
+
+¿Te resultó útil? [Explora el código en GitHub](https://github.com/NachoTorresRD/hacker-text-effect) o [trabaja con NTDESWEB](https://www.ntdesweb.com).

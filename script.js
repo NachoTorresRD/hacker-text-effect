@@ -1,58 +1,95 @@
-﻿// Hacker Scramble Logic
-const SYMBOLS = '!@#$%&*?ABCDEFGHIJKLMNÑOPQRSTUVWXYZ0123456789';
+"use strict";
 
-function scrambleEffect(element, originalText, speed = 60, iterations = 3) {
-  let interval = null;
-  let count = 0;
-  
-  clearInterval(interval);
-  
-  interval = setInterval(() => {
-    element.innerText = originalText
-      .split("")
-      .map((char, index) => {
-        if (char === " ") return " ";
-        if (index < count) return originalText[index];
-        return SYMBOLS[Math.floor(Math.random() * SYMBOLS.length)];
-      })
-      .join("");
-    
-    if (count >= originalText.length) {
-      clearInterval(interval);
-    }
-    
-    count += 1 / iterations;
-  }, speed);
-}
+(() => {
+  const symbols = "!@#$%&*?+={}<>/\\ABCDEFGHIJKLMNÑOPQRSTUVWXYZ0123456789";
+  const fallbackText = "DESCÍFRAME";
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const display = document.querySelector("#scramble-display");
+  const input = document.querySelector("#text-input");
+  const autoToggle = document.querySelector("#auto-scramble");
+  const speedControl = document.querySelector("#speed-control");
+  const speedOutput = document.querySelector("#speed-output");
+  const resetButton = document.querySelector("#reset-button");
+  const characterCount = document.querySelector("#character-count");
+  const status = document.querySelector("#effect-status");
 
-// Dom Elements
-const titleEl = document.getElementById("main-title");
-const displayEl = document.getElementById("scramble-display");
-const inputEl = document.getElementById("text-input");
-const autoScrambleCheck = document.getElementById("auto-scramble");
-
-// Initialize titles on page load
-window.addEventListener("DOMContentLoaded", () => {
-  scrambleEffect(titleEl, "Letras Hacker", 40, 4);
-  scrambleEffect(displayEl, "DECIFRAME", 50, 3);
-});
-
-// Scramble on Hover
-titleEl.addEventListener("mouseenter", () => {
-  scrambleEffect(titleEl, "Letras Hacker", 40, 4);
-});
-
-displayEl.addEventListener("mouseenter", () => {
-  scrambleEffect(displayEl, inputEl.value || "DECIFRAME", 40, 3);
-});
-
-// Scramble on Input Typing
-inputEl.addEventListener("input", (e) => {
-  const val = e.target.value || "VACIO";
-  
-  if (autoScrambleCheck.checked) {
-    scrambleEffect(displayEl, val, 30, 2);
-  } else {
-    displayEl.innerText = val;
+  if (!display || !input || !autoToggle || !speedControl || !speedOutput || !resetButton || !characterCount || !status) {
+    console.warn("Hacker Text Effect: faltan elementos requeridos en el DOM.");
+    return;
   }
-});
+
+  let animationFrame = 0;
+  let lastStepTime = 0;
+  let revealedCharacters = 0;
+
+  const cleanText = () => input.value.trim() || fallbackText;
+
+  const renderFinalText = () => {
+    window.cancelAnimationFrame(animationFrame);
+    animationFrame = 0;
+    display.textContent = cleanText();
+    display.classList.remove("is-running");
+  };
+
+  const runEffect = () => {
+    const targetText = cleanText();
+    window.cancelAnimationFrame(animationFrame);
+
+    if (prefersReducedMotion.matches) {
+      renderFinalText();
+      status.textContent = `Mensaje actualizado: ${targetText}`;
+      return;
+    }
+
+    revealedCharacters = 0;
+    lastStepTime = performance.now();
+    display.classList.add("is-running");
+    status.textContent = "Decodificando mensaje";
+
+    const animate = (now) => {
+      const delay = Number(speedControl.value);
+      if (now - lastStepTime >= delay) {
+        revealedCharacters += 0.5;
+        lastStepTime = now;
+        display.textContent = Array.from(targetText, (character, index) => {
+          if (character === " ") return " ";
+          if (index < revealedCharacters) return character;
+          return symbols[Math.floor(Math.random() * symbols.length)];
+        }).join("");
+      }
+
+      if (revealedCharacters < targetText.length) {
+        animationFrame = window.requestAnimationFrame(animate);
+      } else {
+        display.textContent = targetText;
+        display.classList.remove("is-running");
+        animationFrame = 0;
+        status.textContent = `Mensaje decodificado: ${targetText}`;
+      }
+    };
+
+    animationFrame = window.requestAnimationFrame(animate);
+  };
+
+  const updateCount = () => {
+    characterCount.textContent = `${input.value.length} / ${input.maxLength}`;
+  };
+
+  input.addEventListener("input", () => {
+    updateCount();
+    if (autoToggle.checked) runEffect();
+    else renderFinalText();
+  });
+
+  speedControl.addEventListener("input", () => {
+    speedOutput.value = `${speedControl.value} ms`;
+  });
+
+  display.addEventListener("click", runEffect);
+  display.addEventListener("mouseenter", runEffect);
+  resetButton.addEventListener("click", runEffect);
+  prefersReducedMotion.addEventListener("change", renderFinalText);
+
+  updateCount();
+  runEffect();
+})();
