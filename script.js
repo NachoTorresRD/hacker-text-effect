@@ -24,6 +24,20 @@
 
   const cleanText = () => input.value.trim() || fallbackText;
 
+  const randomSymbol = (character) => {
+    let next = character;
+    while (next === character) {
+      next = symbols[Math.floor(Math.random() * symbols.length)];
+    }
+    return next;
+  };
+
+  const scrambleText = (characters, revealed) => characters.map((character, index) => {
+    if (character === " ") return " ";
+    if (index < revealed) return character;
+    return randomSymbol(character);
+  }).join("");
+
   const renderFinalText = () => {
     window.cancelAnimationFrame(animationFrame);
     animationFrame = 0;
@@ -33,6 +47,7 @@
 
   const runEffect = () => {
     const targetText = cleanText();
+    const targetCharacters = Array.from(targetText);
     window.cancelAnimationFrame(animationFrame);
 
     if (prefersReducedMotion.matches) {
@@ -44,6 +59,7 @@
     revealedCharacters = 0;
     lastStepTime = performance.now();
     display.classList.add("is-running");
+    display.textContent = scrambleText(targetCharacters, 0);
     status.textContent = "Decodificando mensaje";
 
     const animate = (now) => {
@@ -51,14 +67,10 @@
       if (now - lastStepTime >= delay) {
         revealedCharacters += 0.5;
         lastStepTime = now;
-        display.textContent = Array.from(targetText, (character, index) => {
-          if (character === " ") return " ";
-          if (index < revealedCharacters) return character;
-          return symbols[Math.floor(Math.random() * symbols.length)];
-        }).join("");
+        display.textContent = scrambleText(targetCharacters, Math.floor(revealedCharacters));
       }
 
-      if (revealedCharacters < targetText.length) {
+      if (revealedCharacters < targetCharacters.length) {
         animationFrame = window.requestAnimationFrame(animate);
       } else {
         display.textContent = targetText;

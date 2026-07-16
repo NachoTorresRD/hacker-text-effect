@@ -8,9 +8,11 @@ Efecto de texto scramble/decoder accesible, ligero y configurable, construido co
 
 - Activación al escribir, hacer hover, clic o usar el teclado.
 - Velocidad ajustable y reinicio manual.
+- El cifrado comienza desde el primer carácter, sin conservar la letra inicial.
 - Una sola animación `requestAnimationFrame` activa.
 - Adaptación a `prefers-reduced-motion`.
 - Diseño responsive desde 360 px y sin dependencias externas.
+- Composición capture-first completa en una sola pantalla de escritorio.
 
 ## Demo en vivo
 
@@ -32,6 +34,7 @@ hacker-text-effect/
 ├── assets/
 ├── index.html
 ├── style.css
+├── capture.css
 ├── script.js
 ├── netlify.toml
 ├── robots.txt

@@ -8,9 +8,11 @@ An accessible, lightweight, configurable scramble/decoder text effect built with
 
 - Runs on typing, hover, click, or keyboard activation.
 - Adjustable speed and a manual replay control.
+- Scrambling starts at the first character instead of preserving the initial letter.
 - Only one active `requestAnimationFrame` loop.
 - Honors `prefers-reduced-motion`.
 - Responsive from 360 px with no external dependencies.
+- Capture-first composition that fits a single desktop viewport.
 
 ## Live demo
 
@@ -32,6 +34,7 @@ hacker-text-effect/
 ├── assets/
 ├── index.html
 ├── style.css
+├── capture.css
 ├── script.js
 ├── netlify.toml
 ├── robots.txt
