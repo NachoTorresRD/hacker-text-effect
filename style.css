@@ -51,7 +51,7 @@ body::before {
 }
 
 a { color: inherit; }
-button, input { font: inherit; }
+button, input, textarea { font: inherit; }
 button, a { -webkit-tap-highlight-color: transparent; }
 :focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; }
 ::selection { background: var(--accent); color: #041008; }
@@ -120,10 +120,11 @@ h1 em { color: var(--accent-strong); font-style: normal; }
 .controls { padding: 24px; border-top: 1px solid var(--line); background: rgba(3, 8, 11, 0.35); }
 .field { position: relative; }
 .field > label, .control-heading label { display: block; margin-bottom: 8px; color: var(--muted); font: 700 0.72rem/1.2 var(--font-mono); letter-spacing: 0.08em; text-transform: uppercase; }
-.input-wrap { display: flex; align-items: center; gap: 10px; min-height: 52px; padding: 0 52px 0 16px; border: 1px solid var(--line); border-radius: 14px; background: rgba(255, 255, 255, 0.035); color: var(--accent); }
+.input-wrap { display: flex; align-items: flex-start; gap: 10px; min-height: 88px; padding: 16px 58px 16px 16px; border: 1px solid var(--line); border-radius: 14px; background: rgba(255, 255, 255, 0.035); color: var(--accent); }
 .input-wrap:focus-within { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(113, 245, 175, 0.12); }
-.input-wrap input { width: 100%; border: 0; outline: 0; background: transparent; color: var(--text); font-family: var(--font-mono); font-weight: 700; }
-.counter { position: absolute; right: 16px; bottom: 17px; color: #6f877b; font: 0.68rem var(--font-mono); }
+.input-wrap > span { padding-top: 2px; }
+.input-wrap textarea { width: 100%; min-height: 54px; padding: 0; resize: none; border: 0; outline: 0; background: transparent; color: var(--text); font-family: var(--font-mono); font-weight: 700; line-height: 1.5; }
+.counter { position: absolute; right: 16px; bottom: 16px; color: #6f877b; font: 0.68rem var(--font-mono); font-variant-numeric: tabular-nums; }
 .control-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 20px; }
 .range-field, .switch-row { min-height: 82px; padding: 16px; border: 1px solid var(--line); border-radius: 14px; background: rgba(255, 255, 255, 0.025); }
 .control-heading { display: flex; justify-content: space-between; gap: 12px; }
