@@ -16,7 +16,7 @@ Efecto de texto scramble/decoder accesible, ligero y configurable, construido co
 
 ## Demo en vivo
 
-[hacker-text-effect.netlify.app](https://hacker-text-effect.netlify.app)
+[hacker.ntdesweb.dev](https://hacker.ntdesweb.dev/)
 
 ## Instalación
 
