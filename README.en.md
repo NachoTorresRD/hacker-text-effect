@@ -18,6 +18,12 @@ An accessible, lightweight, configurable scramble/decoder text effect built with
 
 [hacker.ntdesweb.dev](https://hacker.ntdesweb.dev/)
 
+## More effect demos
+
+- [Magnetic Button](https://magnetic.ntdesweb.dev/)
+- [Glassmorphism Pricing Card](https://glass.ntdesweb.dev/)
+- [Scroll Reveal](https://scroll.ntdesweb.dev/)
+
 ## Installation
 
 ```bash
